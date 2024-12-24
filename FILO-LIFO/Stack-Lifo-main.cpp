@@ -1,26 +1,65 @@
 #include "Stack-Lifo.h"
 #include<iostream>
+#include<string>
+
+bool isMatchingPair(char opening, char closing) {
+	return  (opening == '(' && closing == ')') ||
+		    (opening == '{' && closing == '}') ||
+		    (opening == '[' && closing == ']');
+}
 
 int main() {
+	const int maxLenght = 100;
+	char input[maxLenght];
+	std::cout << "Enter the string to check (ending with ';'): ";
+	std::cin.getline(input, maxLenght);
+
 	Stack<int> stack;
+	char errorPosition[maxLenght];
+	int errorIndex = -1;
+	
+	for (int i = 0; input[i] != '\0'; ++i) {
+		char ch = input[i];
 
-	for (int i = 0; i < 10; ++i)
+		if (ch == '(',  ch == '{',  ch == '[') {
+			stack.push(ch);
+		}
+
+		else if (ch == ')', ch == '}', ch == ']') {
+			if (stack.isEmpty())
+			{
+				errorIndex = i;
+				break;
+			}
+
+			if (!isMatchingPair(stack.top(), ch)){
+				errorIndex = i;
+				break;
+			}
+			stack.pop();
+	    }
+		else if (ch == ';') {
+			break;
+		}
+    }
+	
+	if (!stack.isEmpty())
 	{
-		stack.push(i);
-		std::cout << "Pushed: " << i << std::endl;
+		errorIndex = -1;
 	}
 
-	std::cout << "Current size of stack: "<< stack.size() << std::endl;
-
-    std::cout << "Top element: " << stack.top() << std::endl;
-
-	while (stack.isEmpty())
-	{
-		std::cout << "Popping: " << stack.top() << std::endl;
-		stack.pop();
+	if (errorIndex == -1){
+		std::cout << "String GOOD!!!" << std::endl;
 	}
 
-	std::cout << "Stack cleared. Is empty: " << (stack.isEmpty() ? "Yes" : "No") << std::endl;
+	else {
+		for (int i = 0; i <= errorIndex; ++i)
+		{
+			errorPosition[i] = input[i];
+		}
+		errorPosition[errorIndex + 1] = '\0';
+		std::cout << "String NOT GOOD!!! to: " << errorPosition << std::endl;
+	}
 
 	return 0;
 }

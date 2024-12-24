@@ -41,4 +41,4 @@ size_t Stack<T>::size() const {
 	return arr.getSize() ;
 }
 
-template class Stack<int>;
+template class Stack<char>;

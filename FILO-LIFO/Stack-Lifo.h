@@ -6,7 +6,7 @@
 template <typename T>
 class Stack {
 private:
-	Array<T>;// Використання класу Array для зберігання 
+	Array<T> arr; // Використання класу Array для зберігання 
 
 public:
 	Stack(size_t initialCapacity = 10);
